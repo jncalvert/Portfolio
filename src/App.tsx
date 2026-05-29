@@ -25,7 +25,14 @@ export default function App() {
         <Experience />
         <Contact />
       </main>
-      <div className="page-blur-bottom" aria-hidden />
+      <div
+        className="page-blur-bottom"
+        aria-hidden
+        style={{
+          backdropFilter: "blur(8px)",
+          WebkitBackdropFilter: "blur(8px)",
+        }}
+      />
     </ReactLenis>
   );
 }

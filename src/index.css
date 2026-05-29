@@ -2100,10 +2100,21 @@ a.case-card {
   height: 96px;
   z-index: 90;
   pointer-events: none;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  -webkit-mask: linear-gradient(to top, #000 0%, #000 32%, transparent 100%);
-  mask: linear-gradient(to top, #000 0%, #000 32%, transparent 100%);
+  /* NOTE: backdrop-filter lives inline on the element (see App.tsx). esbuild's
+     CSS minifier collapses the prefixed + standard forms here and keeps only
+     -webkit-, which kills the blur in Firefox/modern browsers; inline styles
+     bypass the minifier so both prefixes survive. */
+  /* Longhand mask-image (not the `mask` shorthand) survives CSS minification —
+     the shorthand can get mangled in the production build and drop the fade. */
+  -webkit-mask-image: linear-gradient(to top, #000 0%, #000 32%, transparent 100%);
+  mask-image: linear-gradient(to top, #000 0%, #000 32%, transparent 100%);
+  /* Fallback fade to the page colour so the bottom still reads softly where
+     backdrop-filter is unsupported (e.g. some mobile browsers). */
+  background: linear-gradient(
+    to top,
+    var(--color-bg-page) 0%,
+    transparent 100%
+  );
 }
 
 /* --- Beveled strokes + dimensional fills --------------------------------- */
