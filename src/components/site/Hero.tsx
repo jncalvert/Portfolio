@@ -25,7 +25,7 @@ export default function Hero() {
     const spot = spotRef.current;
     const a = plumeARef.current;
     const b = plumeBRef.current;
-    if (!section || !spot) return;
+    if (!section || !spot || !a || !b) return;
 
     let w = section.offsetWidth;
     let h = section.offsetHeight;
