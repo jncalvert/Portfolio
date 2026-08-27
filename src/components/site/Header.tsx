@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { Briefcase, Layers, User, GraduationCap } from "lucide-react";
-import MagneticButton from "./MagneticButton";
+import { Button } from "../../design-system";
 
 const NAV = [
   { label: "Work", href: "#work", Icon: Briefcase },
@@ -76,9 +76,9 @@ export default function Header() {
           ))}
         </nav>
 
-        <MagneticButton href="#contact" variant="gradient" size="sm" arrow={false}>
+        <Button href="#contact" variant="gradient" size="sm" arrow={false}>
           Contact me
-        </MagneticButton>
+        </Button>
       </div>
     </motion.header>
   );

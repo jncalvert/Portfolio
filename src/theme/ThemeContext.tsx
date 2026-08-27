@@ -52,7 +52,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     return () => mq.removeEventListener("change", handler);
   }, []);
 
-  // Light mode is disabled for now — the site is dark-only.
+  // Light mode is disabled for now - the site is dark-only.
   const theme: ResolvedTheme = "dark";
 
   useEffect(() => {
@@ -64,7 +64,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     try {
       window.localStorage.setItem(STORAGE_KEY, mode);
     } catch {
-      /* localStorage unavailable (private mode) — non-fatal */
+      /* localStorage unavailable (private mode) - non-fatal */
     }
   };
 

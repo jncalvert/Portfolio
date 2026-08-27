@@ -1,10 +1,11 @@
 import { useRef } from "react";
-import { motion, useScroll, useTransform, type MotionValue } from "motion/react";
+import { motion, useScroll, useTransform } from "motion/react";
 import { Briefcase, Palette } from "lucide-react";
 import SectionHeading from "./SectionHeading";
 import Reveal from "./Reveal";
 import ScrollText from "./ScrollText";
-import { PROJECTS, OTHER_WORK, type Project } from "../../data/content";
+import { Chip, Badge } from "../../design-system";
+import { CASE_STUDIES, GALLERY, type CaseStudy } from "../../data/content";
 
 // Per-project palette: card tint + the "screenshot" gradient and glow color.
 const CASE_THEMES = [
@@ -14,7 +15,7 @@ const CASE_THEMES = [
   { tint: "linear-gradient(125deg, #221830 0%, #0a0a0e 64%)", screen: "linear-gradient(135deg, #2c1d3e, #140e1c)", glow: "#a64ae0" },
 ];
 
-// Palette for the Other-work deck (reuses the case-card look).
+// Placeholder tints for the Brand & identity tiles, until real thumbnails land.
 const WORK_THEMES = [
   { tint: "linear-gradient(125deg, #15203a 0%, #0a0a0e 64%)", screen: "linear-gradient(135deg, #1d2b4a, #0c1322)", glow: "#3b6ef5" },
   { tint: "linear-gradient(125deg, #2a1d15 0%, #0a0a0e 64%)", screen: "linear-gradient(135deg, #3a241a, #16100c)", glow: "#d9622e" },
@@ -29,138 +30,73 @@ export default function Projects() {
       <div className="container">
         <div className="services-head">
           <Reveal>
-            <span className="services-badge">
-              <Briefcase size={16} />
+            <Badge variant="section" icon={Briefcase}>
               Selected work
-            </span>
+            </Badge>
           </Reveal>
           <div className="services-title-row">
             <Reveal delay={0.06}>
-              <h2 className="services-title">Our Projects</h2>
+              <h2 className="services-title">Case studies</h2>
             </Reveal>
             <ScrollText
               className="services-lead"
-              text="See some of our selected projects we launched."
+              text="Four projects that show the range end to end: a multi-brand design system, two products designed and shipped from zero, and a brand built into code."
             />
           </div>
         </div>
 
         <div className="case-list">
-          {PROJECTS.map((p, i) => (
-            <Reveal key={p.name} delay={(i % 2) * 0.06}>
+          {CASE_STUDIES.map((p, i) => (
+            <Reveal key={p.slug} delay={(i % 2) * 0.06}>
               <CaseCard project={p} index={i} />
             </Reveal>
           ))}
         </div>
 
-        {/* Other work */}
+        {/* Visual & brand work */}
         <div style={{ marginTop: "var(--space-28)" }}>
           <SectionHeading
-            kicker="Other work"
-            title="Brand & identity projects"
+            kicker="Also"
+            title="Brand & identity"
             icon={Palette}
-            lead="Identity systems and logos shaped for brands across sport, retail, and lifestyle."
+            lead="Logos, identities, and visual systems from outside the product work."
           />
-          <WorkDeck />
+          <BrandGrid />
         </div>
       </div>
     </section>
   );
 }
 
-// Brand mockups as tall portrait cards. A tall track is pinned; as it scrolls
-// the cards peel off a diagonal cascade pile one at a time into a horizontal fan.
-function WorkDeck() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end end"],
-  });
-  const count = OTHER_WORK.length;
-
+// Brand & identity: a plain, calm image grid. Placeholder tints stand in until
+// the real project thumbnails are dropped in.
+function BrandGrid() {
   return (
-    <div className="work-scroll" ref={ref}>
-      <div className="work-pin">
-        <div className="work-stack">
-          {OTHER_WORK.map((w, i) => (
-            <WorkCard
-              key={w.name}
-              work={w}
-              i={i}
-              count={count}
-              theme={WORK_THEMES[i % WORK_THEMES.length]}
-              progress={scrollYProgress}
-            />
-          ))}
-        </div>
-      </div>
+    <div className="brand-grid">
+      {GALLERY.map((w, i) => {
+        const theme = WORK_THEMES[i % WORK_THEMES.length];
+        return (
+          <Reveal key={w.name} delay={(i % 3) * 0.06}>
+            <article className="brand-tile">
+              <div className="brand-tile-art" style={{ background: theme.screen }}>
+                <span
+                  className="brand-tile-glow"
+                  style={{ background: theme.glow }}
+                />
+              </div>
+              <div>
+                <h3 className="brand-tile-title">{w.name}</h3>
+                <p className="brand-tile-meta">{w.tags.join(" · ")}</p>
+              </div>
+            </article>
+          </Reveal>
+        );
+      })}
     </div>
   );
 }
 
-// Final fan: card centres step 60% of a card-width apart (cards overlap ~40%).
-const FAN_STEP = 60;
-// Pile (progress 0): each card behind the front is nudged up-left, tilted and
-// shrunk by its depth so the set reads as a diagonal cascade.
-const PILE_X = 9;
-const PILE_Y = 7;
-const PILE_ROT = 3;
-const PILE_SCALE = 0.05;
-// Each card deals out over this slice of scroll; starts are staggered so they
-// unstack one at a time, front (last) card first.
-const DEAL_DUR = 0.36;
-
-function WorkCard({
-  work,
-  i,
-  count,
-  theme,
-  progress,
-}: {
-  work: (typeof OTHER_WORK)[number];
-  i: number;
-  count: number;
-  theme: (typeof WORK_THEMES)[number];
-  progress: MotionValue<number>;
-}) {
-  const center = (count - 1) / 2;
-  // depth in the pile / deal order — the front card (highest i) has depth 0 and
-  // deals out first; cards further back follow in sequence.
-  const depth = count - 1 - i;
-  const start = count > 1 ? (depth * (1 - DEAL_DUR)) / (count - 1) : 0;
-  const end = start + DEAL_DUR;
-  const range: [number, number] = [start, end];
-
-  const x = useTransform(progress, range, [`${-depth * PILE_X}%`, `${(i - center) * FAN_STEP}%`]);
-  const y = useTransform(progress, range, [`${-depth * PILE_Y}%`, "0%"]);
-  const rotate = useTransform(progress, range, [-depth * PILE_ROT, 0]);
-  const scale = useTransform(progress, range, [1 - depth * PILE_SCALE, 1]);
-
-  return (
-    <motion.div
-      className="work-card"
-      style={{ x, y, rotate, scale, zIndex: i }}
-    >
-      <div className="work-card-art" style={{ background: theme.screen }}>
-        <div className="work-card-glow" style={{ background: theme.glow }} />
-        <div className="work-card-mock" />
-      </div>
-      <div className="work-card-scrim" />
-      <div className="work-card-body">
-        <div className="case-tags">
-          {work.tags.slice(0, 2).map((t) => (
-            <span key={t} className="case-pill case-pill--sm">
-              {t}
-            </span>
-          ))}
-        </div>
-        <h3 className="work-card-title">{work.name}</h3>
-      </div>
-    </motion.div>
-  );
-}
-
-function CaseCard({ project, index }: { project: Project; index: number }) {
+function CaseCard({ project, index }: { project: CaseStudy; index: number }) {
   const theme = CASE_THEMES[index % CASE_THEMES.length];
   const ref = useRef<HTMLAnchorElement & HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -183,9 +119,9 @@ function CaseCard({ project, index }: { project: Project; index: number }) {
             <div className="case-screen-ui">
               <div className="case-screen-pills">
                 {project.tags.map((t) => (
-                  <span key={t} className="case-pill case-pill--sm">
+                  <Chip key={t} variant="glass" size="sm">
                     {t}
-                  </span>
+                  </Chip>
                 ))}
               </div>
               <span className="l1" />
@@ -201,9 +137,9 @@ function CaseCard({ project, index }: { project: Project; index: number }) {
       <div className="case-overlay">
         <div className="case-tags">
           {project.tags.slice(0, 2).map((t) => (
-            <span key={t} className="case-pill">
+            <Chip key={t} variant="glass">
               {t}
-            </span>
+            </Chip>
           ))}
         </div>
         <div className="case-meta">

@@ -1,16 +1,16 @@
 @import "tailwindcss";
 
 /* ============================================================================
- * NOAH CALVERT — DESIGN SYSTEM
+ * NOAH CALVERT - DESIGN SYSTEM
  * ----------------------------------------------------------------------------
  * Three layers, in order of abstraction:
  *
- *   1. PRIMITIVES  — the raw palette + opacity ramps. Theme-invariant. Never
+ *   1. PRIMITIVES  - the raw palette + opacity ramps. Theme-invariant. Never
  *      reference these directly in components; they are the source the
  *      semantic layer maps onto.
- *   2. SEMANTIC    — role-based tokens (bg / text / border / accent). These
+ *   2. SEMANTIC    - role-based tokens (bg / text / border / accent). These
  *      swap per `[data-theme]`. Components ONLY consume this layer.
- *   3. SCALES      — type, spacing, radius, shadow, motion. Mostly
+ *   3. SCALES      - type, spacing, radius, shadow, motion. Mostly
  *      theme-invariant.
  *
  * Palette sourced from the live noahcalvert.com Webflow variables:
@@ -20,13 +20,13 @@
 
 
 /* ----------------------------------------------------------------------------
- * LAYER 1 — PRIMITIVES
+ * LAYER 1 - PRIMITIVES
  * Raw hues + their opacity ramps. Suffix = approximate alpha:
  *   05≈2% · 10≈10% · 20≈20% · 40≈40% · 60≈60% · 80≈80%
  * (8-digit hex: 0d/1a/33/66/99/cc)
  * --------------------------------------------------------------------------*/
 :root {
-  /* Neutrals — the ink + the canvases */
+  /* Neutrals - the ink + the canvases */
   --palette-charcoal: #0a0a0a;
   --palette-charcoal-80: #0a0a0acc;
   --palette-charcoal-60: #0a0a0a99;
@@ -59,7 +59,7 @@
   --gradient-brand: linear-gradient(120deg, #bbcef7 0%, #6aa8ff 40%, #8b5cf6 100%);
   --gradient-text: linear-gradient(100deg, var(--color-text-primary) 0%, #6aa8ff 45%, #8b5cf6 100%);
 
-  /* Accent — electric blue + ramp */
+  /* Accent - electric blue + ramp */
   --palette-blue: #3b82f6;
   --palette-blue-deep: #0050bd;
   --palette-blue-80: #3b82f6cc;
@@ -88,7 +88,7 @@
 
 
 /* ----------------------------------------------------------------------------
- * LAYER 2 — SEMANTIC TOKENS
+ * LAYER 2 - SEMANTIC TOKENS
  * Role-based. Components consume ONLY these. Light is the default (matches
  * the live site); dark mirrors it by inverting neutrals.
  * --------------------------------------------------------------------------*/
@@ -139,7 +139,7 @@
 }
 
 [data-theme="dark"] {
-  /* Surfaces — stepped near-blacks so cards read against the page */
+  /* Surfaces - stepped near-blacks so cards read against the page */
   --color-bg-page: var(--palette-ink-900);
   --color-bg-surface: var(--palette-ink-800);
   --color-bg-elevated: var(--palette-ink-750);
@@ -161,7 +161,7 @@
   --color-border-subtle: var(--palette-warm-grey-05);
   --color-border-inverse: var(--palette-charcoal-20);
 
-  /* Accent — same blue reads fine on near-black */
+  /* Accent - same blue reads fine on near-black */
   --color-accent: var(--palette-blue);
   --color-accent-hover: var(--palette-blue-80);
   --color-accent-subtle: var(--palette-blue-10);
@@ -182,17 +182,17 @@
 
 
 /* ----------------------------------------------------------------------------
- * LAYER 3 — SCALES (theme-invariant)
+ * LAYER 3 - SCALES (theme-invariant)
  * --------------------------------------------------------------------------*/
 :root {
-  /* Type families — Geist everywhere. */
+  /* Type families - Geist everywhere. */
   --font-display: "Geist", system-ui, sans-serif;
   --font-sans: "Geist", system-ui, sans-serif;
   --font-body: "Geist", system-ui, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
 
-  /* Type scale (rem) — fluid-ready, 1.25 major-third-ish ramp */
+  /* Type scale (rem) - fluid-ready, 1.25 major-third-ish ramp */
   --text-xs: 0.75rem;    /* 12 */
   --text-sm: 0.875rem;   /* 14 */
   --text-base: 1rem;     /* 16 */
@@ -209,14 +209,14 @@
   --leading-normal: 1.5;
   --leading-relaxed: 1.7;
 
-  /* Single tracking value — -2% across the board. */
+  /* Single tracking value - -2% across the board. */
   --tracking: -0.02em;
 
   /* Medium is the heaviest weight we use. */
   --weight-regular: 400;
   --weight-medium: 500;
 
-  /* Spacing scale — matches the live site's px tokens */
+  /* Spacing scale - matches the live site's px tokens */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -241,7 +241,7 @@
   --radius-3xl: 32px;
   --radius-full: 1000px;
 
-  /* Elevation — soft, low-contrast shadows tuned for light surfaces */
+  /* Elevation - soft, low-contrast shadows tuned for light surfaces */
   --shadow-xs: 0 1px 2px rgba(10, 10, 10, 0.04);
   --shadow-sm: 0 2px 8px rgba(10, 10, 10, 0.06);
   --shadow-md: 0 8px 24px rgba(10, 10, 10, 0.08);
@@ -402,7 +402,7 @@ h1, h2, h3, h4, h5, h6 {
   padding-bottom: var(--space-28);
 }
 
-/* Faint dotted grid backdrop — the "engineered" texture from both refs. */
+/* Faint dotted grid backdrop - the "engineered" texture from both refs. */
 .grid-backdrop {
   background-image: radial-gradient(
     var(--color-grid-line) 1px,
@@ -411,7 +411,7 @@ h1, h2, h3, h4, h5, h6 {
   background-size: 28px 28px;
 }
 
-/* --- Hero (full-bleed editorial — modeled on the reference) -------------- */
+/* --- Hero (full-bleed editorial - modeled on the reference) -------------- */
 .hero-inner {
   position: relative;
   z-index: 1;
@@ -422,7 +422,7 @@ h1, h2, h3, h4, h5, h6 {
   padding-bottom: var(--space-12);
 }
 
-/* Top band — headline left, supporting copy + socials right */
+/* Top band - headline left, supporting copy + socials right */
 .hero-top {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
@@ -507,7 +507,7 @@ h1, h2, h3, h4, h5, h6 {
   border-color: var(--color-text-primary);
 }
 
-/* Bottom band — services list left, featured card right */
+/* Bottom band - services list left, featured card right */
 .hero-bottom {
   margin-top: auto;
   padding-top: var(--space-18);
@@ -607,7 +607,7 @@ h1, h2, h3, h4, h5, h6 {
   flex: none;
 }
 
-/* Full-bleed ambient background — deep near-black with a cursor-tracked glow */
+/* Full-bleed ambient background - deep near-black with a cursor-tracked glow */
 .hero-ambient {
   position: absolute;
   inset: 0;
@@ -664,7 +664,7 @@ h1, h2, h3, h4, h5, h6 {
 [data-theme="light"] .hero-plume--2 {
   background: radial-gradient(circle, rgba(139, 92, 246, 0.12), transparent 62%);
 }
-/* Cursor-tracking spotlight — a pre-rendered circle we only ever translate, so
+/* Cursor-tracking spotlight - a pre-rendered circle we only ever translate, so
    it stays GPU-composited (no per-frame gradient repaint = no banding). */
 .hero-spotlight {
   position: absolute;
@@ -711,7 +711,7 @@ h1, h2, h3, h4, h5, h6 {
   );
 }
 
-/* Blend the hero's deep base into the page colour so there's no seam at the
+/* Blend the hero's deep base into the page color so there's no seam at the
    boundary with the next section. */
 .hero-fade {
   position: absolute;
@@ -1018,7 +1018,7 @@ h1, h2, h3, h4, h5, h6 {
   50% { opacity: 0; }
 }
 
-/* Website mockup — sleek dark landing page */
+/* Website mockup - sleek dark landing page */
 .site-page {
   position: relative;
   flex: 1;
@@ -1339,7 +1339,7 @@ h1, h2, h3, h4, h5, h6 {
   transform: translate(3px, -3px);
 }
 
-/* Primary — light pill on dark, dark pill on light, with the inner glow. */
+/* Primary - light pill on dark, dark pill on light, with the inner glow. */
 .btn-primary {
   background: var(--color-text-primary);
   color: var(--color-bg-page);
@@ -1363,7 +1363,7 @@ h1, h2, h3, h4, h5, h6 {
   transform: translateY(0);
 }
 
-/* Gradient — the live site's secondary button, now the "wow" CTA. */
+/* Gradient - the live site's secondary button, now the "wow" CTA. */
 .btn-gradient {
   background: var(--gradient-brand);
   background-size: 200% 200%;
@@ -1479,7 +1479,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-/* Ghost — outlined pill that fills with the accent on hover. */
+/* Ghost - outlined pill that fills with the accent on hover. */
 .btn-ghost {
   background: transparent;
   color: var(--color-text-primary);
@@ -1522,7 +1522,7 @@ h1, h2, h3, h4, h5, h6 {
   white-space: nowrap;
 }
 
-/* Section kicker — glossy pill (dot + label), matching .services-badge. */
+/* Section kicker - glossy pill (dot + label), matching .services-badge. */
 .kicker {
   display: inline-flex;
   align-items: center;
@@ -1571,40 +1571,31 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-/* --- Custom cursor ------------------------------------------------------- */
-.cursor-dot,
+/* --- Custom cursor (subtle trailing ring, sits over the native cursor) --- */
 .cursor-ring {
   position: fixed;
   top: 0;
   left: 0;
+  width: 22px;
+  height: 22px;
   border-radius: var(--radius-full);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  transform: translate(-50%, -50%);
   pointer-events: none;
   z-index: 9999;
-  mix-blend-mode: difference;
   will-change: transform;
-}
-.cursor-dot {
-  width: 8px;
-  height: 8px;
-  background: #ffffff;
-  transform: translate(-50%, -50%);
-}
-.cursor-ring {
-  width: 36px;
-  height: 36px;
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  transform: translate(-50%, -50%);
   transition: width var(--duration-base) var(--ease-out),
     height var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out),
     background-color var(--duration-base) var(--ease-out);
 }
 .cursor-ring.is-hovering {
-  width: 64px;
-  height: 64px;
-  background: rgba(255, 255, 255, 0.1);
+  width: 34px;
+  height: 34px;
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.04);
 }
 @media (hover: none), (pointer: coarse) {
-  .cursor-dot,
   .cursor-ring {
     display: none;
   }
@@ -1693,7 +1684,7 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 0 0 4px var(--color-accent-subtle);
 }
 
-/* Header icon nav — collapsed icons that expand to icon + label on hover */
+/* Header icon nav - collapsed icons that expand to icon + label on hover */
 .header-nav {
   display: flex;
   align-items: center;
@@ -1914,7 +1905,7 @@ a.case-card {
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
-/* Small pill variant — used inside the preview mockup UI */
+/* Small pill variant - used inside the preview mockup UI */
 .case-screen-pills {
   display: flex;
   flex-wrap: wrap;
@@ -1964,131 +1955,62 @@ a.case-card {
   --title-fade: #ffffff;
 }
 
-/* --- Other-work: tall brand-mockup cards that deal out of a pile on scroll -
-   A tall track is pinned; as it scrolls the cards peel off a diagonal cascade
-   one at a time into a horizontal fan. */
-.work-scroll {
-  position: relative;
-  height: 300vh;
+/* --- Brand & identity: a plain image grid ------------------------------- */
+.brand-grid {
+  margin-top: var(--space-10);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
 }
-.work-pin {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.work-stack {
-  position: relative;
-  width: min(100%, 1080px);
-  height: min(72vh, 560px);
-  margin-inline: auto;
-}
-.work-card {
-  /* inset:0 + margin:auto centres each card in the stack; motion transforms
-     (x/y/rotate/scale) then position it within the pile or the fan. */
-  position: absolute;
-  inset: 0;
-  margin: auto;
-  width: 30%;
-  height: auto;
-  aspect-ratio: 5 / 8;
-  border-radius: var(--radius-2xl);
-  overflow: hidden;
-  isolation: isolate;
-  background: var(--color-bg-surface);
-  box-shadow: 0 30px 60px -28px rgba(0, 0, 0, 0.85),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06);
-  transition: box-shadow 0.5s var(--ease-out);
-  will-change: transform;
-}
-.work-card::after {
-  /* glossy rim, matching the pills/buttons */
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.4) 0%,
-    rgba(255, 255, 255, 0.06) 40%,
-    rgba(255, 255, 255, 0.02) 70%,
-    rgba(255, 255, 255, 0.16) 100%
-  );
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  mask-composite: exclude;
-  pointer-events: none;
-}
-.work-card:hover {
-  box-shadow: 0 38px 80px -26px rgba(0, 0, 0, 0.95),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-.work-card-art {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
-}
-.work-card-glow {
-  position: absolute;
-  top: 18%;
-  left: 50%;
-  width: 80%;
-  height: 46%;
-  transform: translateX(-50%);
-  border-radius: 50%;
-  filter: blur(42px);
-  opacity: 0.6;
-}
-/* Stand-in for the vertical brand mockup (poster/board) */
-.work-card-mock {
-  position: absolute;
-  top: 12%;
-  left: 50%;
-  width: 58%;
-  height: 56%;
-  transform: translateX(-50%);
-  border-radius: var(--radius-md);
-  background: linear-gradient(
-    160deg,
-    rgba(255, 255, 255, 0.92),
-    rgba(255, 255, 255, 0.62)
-  );
-  box-shadow: 0 24px 48px -16px rgba(0, 0, 0, 0.6);
-}
-.work-card-scrim {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.78) 0%,
-    rgba(0, 0, 0, 0.32) 34%,
-    transparent 58%
-  );
-  pointer-events: none;
-}
-.work-card-body {
-  position: absolute;
-  inset: auto 0 0 0;
-  z-index: 2;
+.brand-tile {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
-  padding: clamp(var(--space-3), 1.6vw, var(--space-5));
+  gap: var(--space-4);
 }
-.work-card-title {
+.brand-tile-art {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  transition: border-color var(--duration-base) var(--ease-out),
+    transform var(--duration-base) var(--ease-out);
+}
+.brand-tile:hover .brand-tile-art {
+  border-color: var(--color-accent-border);
+  transform: translateY(-4px);
+}
+.brand-tile-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 72%;
+  height: 60%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  filter: blur(48px);
+  opacity: 0.5;
+}
+.brand-tile-title {
   font-family: var(--font-display);
-  font-size: clamp(1rem, 1.6vw, 1.5rem);
+  font-size: var(--text-xl);
   font-weight: var(--weight-medium);
-  line-height: 1.05;
   letter-spacing: var(--tracking);
-  color: #fff;
+}
+.brand-tile-meta {
+  margin-top: var(--space-1);
+  font-size: var(--text-sm);
+  color: var(--color-text-tertiary);
+}
+@media (max-width: 900px) {
+  .brand-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 560px) {
+  .brand-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* --- Fixed blur at the bottom edge of the viewport ----------------------- */
@@ -2100,10 +2022,21 @@ a.case-card {
   height: 96px;
   z-index: 90;
   pointer-events: none;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  -webkit-mask: linear-gradient(to top, #000 0%, #000 32%, transparent 100%);
-  mask: linear-gradient(to top, #000 0%, #000 32%, transparent 100%);
+  /* NOTE: backdrop-filter lives inline on the element (see App.tsx). esbuild's
+     CSS minifier collapses the prefixed + standard forms here and keeps only
+     -webkit-, which kills the blur in Firefox/modern browsers; inline styles
+     bypass the minifier so both prefixes survive. */
+  /* Longhand mask-image (not the `mask` shorthand) survives CSS minification -
+     the shorthand can get mangled in the production build and drop the fade. */
+  -webkit-mask-image: linear-gradient(to top, #000 0%, #000 32%, transparent 100%);
+  mask-image: linear-gradient(to top, #000 0%, #000 32%, transparent 100%);
+  /* Fallback fade to the page color so the bottom still reads softly where
+     backdrop-filter is unsupported (e.g. some mobile browsers). */
+  background: linear-gradient(
+    to top,
+    var(--color-bg-page) 0%,
+    transparent 100%
+  );
 }
 
 /* --- Beveled strokes + dimensional fills --------------------------------- */
@@ -2217,12 +2150,6 @@ a.case-card {
   }
   .case-screen {
     width: 78%;
-  }
-  .work-card-title {
-    font-size: 0.8rem;
-  }
-  .work-card-body {
-    padding: var(--space-2);
   }
   .about-grid {
     grid-template-columns: 1fr !important;

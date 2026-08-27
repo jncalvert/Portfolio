@@ -1,118 +1,209 @@
-/** All site copy in one place — pulled from the live noahcalvert.com. */
+/**
+ * All site copy in one place.
+ *
+ * POSITIONING (the spine everything hangs off):
+ *   Noah is a product designer who ships design systems as real code, with a
+ *   brand designer's eye for craft. The design-systems work is the headline;
+ *   product ownership proves range; brand/visual work is the supporting act,
+ *   never the thesis.
+ *
+ * Anything marked `// TODO` is scaffolding. Real numbers, names, and
+ * NDA-cleared detail get filled in as case studies come together.
+ */
 
 export const PROFILE = {
   name: "Noah Calvert",
-  role: "Product & Brand Designer",
-  location: "Kentucky, USA",
+  role: "Product Designer",
+  location: "Lexington, Kentucky",
   email: "design@noahcalvert.com",
-  tagline:
-    "Designing clear, scalable, system-driven product interfaces for web and mobile apps, web apps, and websites.",
-  // Words that rotate in the hero display line.
-  rotating: ["Masterpieces", "Interfaces", "Brands", "Products", "Systems"],
+  // Hero tagline. `taglineMuted` renders after it in a greyed span.
+  tagline: "I design and ship the systems behind web and mobile products.",
+  taglineMuted: "Built with a brand designer's eye for craft.",
   socials: [
     { label: "LinkedIn", href: "https://www.linkedin.com/in/noah-calvert-358871259/" },
     { label: "Behance", href: "https://www.behance.net/noahcalvert1" },
   ],
 };
 
-export const STATS = [
-  { value: "5+", label: "Years designing" },
-  { value: "20+", label: "Projects shipped" },
-  { value: "4", label: "Disciplines" },
-  { value: "100%", label: "Systems-driven" },
+export const HERO = {
+  // Staggered line reveal on load.
+  headline: ["Designing", "Digital", "Systems"],
+  featured: { title: "Selected work", note: "4 case studies" },
+};
+
+/**
+ * Trust strip. Concrete facts, not vanity metrics. First thing that tells a
+ * hiring manager this is real product work.
+ */
+export const SIGNALS = [
+  "Lead UX Designer at Sky Systemz",
+  "Tri-brand design system in production",
+  "Shipped as an npm package across multiple apps",
+  "2 products designed and shipped end to end",
+  "Graphic-design roots, product-design focus",
 ];
 
-export const SKILLS = [
+/**
+ * The four disciplines, ordered as a spine:
+ *   Product Design, Design Systems, Brand Identity, Design Engineering
+ * `id` stays fixed (ux / website / brand / webdev) so the card visuals map.
+ */
+export const DISCIPLINES = [
   {
     id: "ux",
-    title: "UI/UX Design",
+    title: "Product Design",
     blurb:
-      "Research-led product design — flows, wireframes, and interaction systems that make complex tools feel obvious.",
-    points: ["User flows", "Wireframing", "Prototyping", "Design systems"],
+      "Research-led UX for web and mobile apps. User flows, IA, and interaction patterns that make dense, complex tools feel obvious.",
+    points: ["User research", "Flows & IA", "Prototyping", "Usability testing"],
   },
   {
     id: "website",
-    title: "Website",
+    title: "Design Systems",
     blurb:
-      "High-performance marketing sites engineered for speed, conversion, and search visibility.",
-    points: ["Landing pages", "Responsive design", "Conversion", "SEO-ready"],
+      "Multi-brand systems built to scale. Tokens, components, and documentation in Figma, handed to engineering as versioned code.",
+    points: ["Design tokens", "Component libraries", "Figma to code", "Governance"],
   },
   {
     id: "brand",
     title: "Brand Identity",
     blurb:
-      "Premium brand identity for strong market positioning, authority, and recognition — logo to guidelines.",
-    points: ["Logo design", "Visual identity", "Guidelines", "Brand assets"],
+      "The visual foundation a product stands on. Logo, type, color, and guidelines that hold up from app UI to marketing.",
+    points: ["Logo & wordmark", "Visual identity", "Guidelines", "Brand assets"],
   },
   {
     id: "webdev",
-    title: "Web Dev",
+    title: "Design Engineering",
     blurb:
-      "Hand-built, animated front-ends. From Webflow to custom React — design that ships and performs.",
-    points: ["Webflow", "React", "Animation", "HTML / CSS"],
+      "The bridge to engineering. I prototype in code and ship the design system as one package every app builds from.",
+    points: ["Coded prototypes", "Design tokens", "Component APIs", "Motion"],
   },
 ];
 
-export type ProjectStatus = "Complete" | "In progress";
-
-export interface Project {
+export interface CaseStudy {
+  slug: string;
   name: string;
   year: string;
-  status: ProjectStatus;
-  summary: string;
+  status: string; // "Shipped" | "In progress" | "Ongoing" | "Design complete"
+  discipline: string; // short category line for the card
+  summary: string; // one line, card-facing
   tags: string[];
-  highlights: string[];
+  // --- Detail-view scaffolding (not rendered yet) ------------------------
+  role?: string;
+  context?: string; // company, timeframe, stack
+  problem?: string;
+  contributions?: string[];
+  outcome?: string; // TODO where confidential: fill with cleared metrics
+  confidential?: boolean; // gates how much detail can go public
   href: string | null;
 }
 
-export const PROJECTS: Project[] = [
+/**
+ * Four case studies, chosen to span the whole story with minimal overlap:
+ *   1. design system: systems thinking, eng collaboration, scale
+ *   2. customer portal: 0 to 1 web product ownership
+ *   3. payments app: 0 to 1 mobile, trust-heavy domain
+ *   4. startup brand + site: brand-to-code range, self-direction
+ */
+export const CASE_STUDIES: CaseStudy[] = [
   {
-    name: "Crometix",
-    year: "2026",
-    status: "In progress",
+    slug: "design-system",
+    name: "Tri-Brand Design System",
+    year: "2025 to present",
+    status: "Ongoing",
+    discipline: "Design systems, web + mobile",
     summary:
-      "A revenue infrastructure platform built to turn traffic into conversion.",
-    tags: ["UI/UX", "Brand identity", "Web design", "Web development"],
-    highlights: ["Infrastructure-first positioning", "Audit-to-close funnel"],
+      "One system, three brands: tokens and components designed in Figma and shipped to engineering as a versioned npm package.",
+    tags: ["Design systems", "Figma", "React", "npm"],
+    role: "Lead UX Designer, system owner",
+    context: "Sky Systemz, 2025 to present, Figma / React / npm",
+    problem:
+      "Three product brands were drifting apart: inconsistent UI, duplicated design work, slow hand-off between design and engineering.",
+    contributions: [
+      "Defined the token architecture (color, type, spacing, motion) with theming across all three brands",
+      "Designed and documented the Figma component library",
+      "Partnered with engineering to publish the system as an npm package consumed by multiple apps",
+      "Set the contribution and versioning process that keeps design and code in sync",
+    ],
+    outcome: "TODO: adoption across apps, consistency gains, hand-off speed.",
+    confidential: true,
     href: null,
   },
   {
-    name: "Sellrly",
+    slug: "customer-portal",
+    name: "Customer Portal",
     year: "2025",
-    status: "Complete",
+    status: "Shipped",
+    discipline: "Product design, web app, 0 to 1",
     summary:
-      "A scalable brand and website built to convert creators into customers.",
-    tags: ["UI/UX", "Web design", "Brand identity"],
-    highlights: ["Clearer value messaging", "Scalable page structure"],
-    href: "#",
+      "A customer-facing portal designed end to end, from discovery through shipped UI, on top of the new design system.",
+    tags: ["Product design", "UX research", "Web app"],
+    role: "Lead UX Designer, sole designer",
+    context: "Sky Systemz, 2025",
+    problem:
+      "TODO: what customers couldn't do before, and the support / retention cost of that gap.",
+    contributions: [
+      "Ran discovery and mapped the core jobs and flows",
+      "Designed the IA, wireframes, and full high-fidelity UI",
+      "Built new components back into the shared design system",
+      "Worked alongside engineering through build and launch",
+    ],
+    outcome: "TODO: adoption, support-ticket reduction, task-success rate.",
+    confidential: true,
+    href: null,
   },
   {
-    name: "CKTL",
-    year: "2025",
-    status: "Complete",
+    slug: "mobile-app",
+    name: "Mobile App",
+    year: "2024 to 2025",
+    status: "Design complete",
+    discipline: "Product design, mobile, 0 to 1",
     summary:
-      "Designing a clear, functional website for a tack and leather shop.",
-    tags: ["UI/UX", "Web design"],
-    highlights: ["Responsive redesign", "Clear information hierarchy"],
-    href: "#",
+      "A consumer mobile app designed end to end: native patterns, and the trust and clarity the domain demands.",
+    tags: ["Mobile", "Product design", "0 to 1"],
+    role: "Lead UX Designer, sole designer",
+    context: "Sky Systemz, 2024 to 2025",
+    problem: "TODO: the user and business case for the app.",
+    contributions: [
+      "Designed the end-to-end flows: onboarding, verification, send / receive, history",
+      "Established the mobile pattern set and navigation model",
+      "Designed for trust: states, confirmations, and error / edge cases",
+      "Prototyped for testing and engineering hand-off",
+    ],
+    outcome: "TODO: validation results, launch status, early metrics.",
+    confidential: true,
+    href: null,
   },
   {
-    name: "Outfitd",
-    year: "2026",
-    status: "In progress",
+    slug: "startup-brand-site",
+    name: "Startup Brand + Site",
+    year: "2025",
+    status: "Shipped",
+    discipline: "Brand identity, website, Figma to code",
     summary:
-      "End-to-end brand identity and mobile app prototyping for an AI-powered fashion product.",
-    tags: ["UI/UX", "Mobile app", "Brand identity"],
-    highlights: ["AI-driven styling", "App prototyping"],
+      "Brand identity and marketing site for an early-stage startup: identity in Figma, built and shipped as hand-coded React.",
+    tags: ["Brand identity", "Web design", "React"],
+    role: "Independent, brand and build",
+    context: "Freelance, 2025, Figma / React",
+    problem:
+      "TODO: the startup's positioning problem and why identity and site had to come together.",
+    contributions: [
+      "Built the identity: logo, type, color, usage rules",
+      "Designed the full marketing site in Figma",
+      "Coded and deployed it as a custom React front-end",
+    ],
+    outcome: "TODO: launch, plus any traction or founder feedback you can share.",
+    confidential: false,
     href: null,
   },
 ];
 
-export const OTHER_WORK = [
+/**
+ * Visual & brand work. TODO: swap in the real projects and their thumbnails.
+ */
+export const GALLERY = [
   {
     name: "Waverunners",
-    blurb:
-      "A full rebrand for the Waterford Waverunners — 2 logos, brand assets, and guidelines.",
+    blurb: "Full rebrand for the Waterford Waverunners: two logos, assets, and guidelines.",
     tags: ["Brand", "Logo"],
   },
   {
@@ -122,20 +213,17 @@ export const OTHER_WORK = [
   },
   {
     name: "Lexington Saints",
-    blurb:
-      "End-to-end brand concepting and design for the Lexington Saints rugby team.",
+    blurb: "End-to-end identity for the Lexington Saints rugby team.",
     tags: ["Brand", "Logo"],
   },
   {
     name: "Harbor & Co.",
-    blurb:
-      "A refined identity system for a boutique coffee roaster — wordmark, packaging, and palette.",
+    blurb: "Refined identity system for a boutique coffee roaster: wordmark, packaging, palette.",
     tags: ["Brand", "Identity"],
   },
   {
     name: "Northpine",
-    blurb:
-      "Logo suite and visual language for an outdoor apparel startup, built to scale across products.",
+    blurb: "Logo suite and visual language for an outdoor apparel startup, built to scale.",
     tags: ["Brand", "Logo"],
   },
 ];
@@ -152,52 +240,34 @@ export const EXPERIENCE: Role[] = [
   {
     title: "Lead UX Designer",
     company: "Sky Systemz, Kentucky, USA",
-    period: "Jan 2025 – Present",
-    tags: ["UI/UX", "Web Design", "Brand"],
+    period: "Dec 2023 to Present",
+    tags: ["Product design", "Design systems", "Brand"],
     blurb:
-      "Leading product and visual design across web and mobile — building the design system, marketing site, and brand language end to end.",
-  },
-  {
-    title: "Digital Content Designer",
-    company: "Sky Systemz, Kentucky, USA",
-    period: "May 2024 – Jan 2025",
-    tags: ["Graphic Design", "Web Design"],
-    blurb:
-      "Produced digital content and web design across campaigns, growing the visual language of the product.",
-  },
-  {
-    title: "Website Designer",
-    company: "Sky Systemz, Kentucky, USA",
-    period: "Dec 2023 – May 2024",
-    tags: ["Graphic Design", "Web Design"],
-    blurb:
-      "Designed and shipped responsive marketing pages and web assets.",
+      "Joined as a website designer and grew into design leadership (Website Designer, then Digital Content Designer, then Lead UX Designer). Now own product and visual design across web and mobile: the tri-brand design system and its npm package, a customer portal built from zero, a payments mobile app, and the brand language. End to end, working directly with product and engineering.",
   },
   {
     title: "Graphic Designer",
     company: "theBulletin.io, Illinois, USA",
-    period: "Aug 2023 – May 2024",
-    tags: ["Graphic Design"],
-    blurb:
-      "Created editorial and brand graphics across a fast-moving content operation.",
+    period: "Aug 2023 to May 2024",
+    tags: ["Graphic design"],
+    blurb: "Editorial and brand graphics across a fast-moving content operation.",
   },
   {
     title: "Head Swim Coach",
     company: "Waterford Waverunners, Kentucky, USA",
-    period: "Feb 2022 – Jul 2025",
+    period: "Feb 2022 to Jul 2025",
     tags: ["Leadership"],
     blurb:
-      "Led and coached a competitive swim program — leadership, communication, and team building.",
+      "Led a competitive youth swim program. The first place I practised communication, feedback, and running a team. Also handled the club's rebrand.",
   },
 ];
 
 export const TOOLS = [
   "Figma",
-  "Illustrator",
-  "Photoshop",
-  "After Effects",
-  "Webflow",
   "React",
-  "HTML5",
-  "CSS3",
+  "TypeScript",
+  "Motion",
+  "Webflow",
+  "Illustrator",
+  "After Effects",
 ];

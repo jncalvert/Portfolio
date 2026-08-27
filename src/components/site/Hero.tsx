@@ -1,15 +1,12 @@
 import { useEffect, useRef } from "react";
 import { motion } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
-import { PROFILE, SKILLS } from "../../data/content";
+import { PROFILE, HERO, DISCIPLINES } from "../../data/content";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-// Static headline — staggered line reveal on load.
-const HEAD_LINES = ["Designing", "Digital", "Masterpieces"];
-
-// Two-tone tagline: lead reads primary, trailing clause greys out.
-const [TAGLINE_LEAD, ...TAGLINE_TAIL] = PROFILE.tagline.split(" for ");
+// Static headline: staggered line reveal on load.
+const HEAD_LINES = HERO.headline;
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -25,7 +22,7 @@ export default function Hero() {
     const spot = spotRef.current;
     const a = plumeARef.current;
     const b = plumeBRef.current;
-    if (!section || !spot) return;
+    if (!section || !spot || !a || !b) return;
 
     let w = section.offsetWidth;
     let h = section.offsetHeight;
@@ -35,7 +32,7 @@ export default function Hero() {
     let y = ty;
     let raf = 0;
 
-    // Track on window — the fixed header overlaps the hero, so listening on the
+    // Track on window - the fixed header overlaps the hero, so listening on the
     // section itself would fire mouseleave (and reset the spotlight) whenever the
     // cursor crossed onto a header element sitting on top of it.
     const onMove = (e: MouseEvent) => {
@@ -70,7 +67,7 @@ export default function Hero() {
       id="top"
       style={{ position: "relative", overflow: "hidden" }}
     >
-      {/* Full-bleed ambient — deep black with a cursor-tracked spotlight */}
+      {/* Full-bleed ambient - deep black with a cursor-tracked spotlight */}
       <div className="hero-ambient" aria-hidden>
         <div ref={plumeARef} className="hero-parallax">
           <div className="hero-plume hero-plume--1" />
@@ -85,7 +82,7 @@ export default function Hero() {
       </div>
 
       <div className="container hero-inner">
-        {/* Top band — headline + supporting copy */}
+        {/* Top band - headline + supporting copy */}
         <div className="hero-top">
           <div>
             <h1 className="hero-headline">
@@ -110,9 +107,9 @@ export default function Hero() {
             transition={{ duration: 0.7, ease: EASE, delay: 0.5 }}
           >
             <p>
-              {TAGLINE_LEAD}
-              {TAGLINE_TAIL.length > 0 && (
-                <span className="muted"> for {TAGLINE_TAIL.join(" for ")}</span>
+              {PROFILE.tagline}
+              {PROFILE.taglineMuted && (
+                <span className="muted"> {PROFILE.taglineMuted}</span>
               )}
             </p>
             <hr />
@@ -136,7 +133,7 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        {/* Bottom band — services list + featured card */}
+        {/* Bottom band - services list + featured card */}
         <motion.div
           className="hero-bottom"
           initial={{ opacity: 0, y: 16 }}
@@ -146,7 +143,7 @@ export default function Hero() {
           <div className="hero-services">
             <span className="hero-eyebrow">What I do</span>
             <ul>
-              {SKILLS.map((s, i) => (
+              {DISCIPLINES.map((s, i) => (
                 <li key={s.id}>
                   <span className="dash" style={{ animationDelay: `${i * 0.45}s` }} />
                   {s.title}
@@ -158,8 +155,8 @@ export default function Hero() {
           <a className="hero-feature" href="#work">
             <span className="thumb" />
             <span className="meta">
-              <strong>Featured projects</strong>
-              <span>See more</span>
+              <strong>{HERO.featured.title}</strong>
+              <span>{HERO.featured.note}</span>
             </span>
             <span className="go">
               <ArrowUpRight size={18} />

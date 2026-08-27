@@ -1,35 +1,45 @@
 import { useRef, type ReactNode, type MouseEvent } from "react";
 import { ArrowUpRight } from "lucide-react";
 
-type Variant = "primary" | "gradient" | "ghost";
+export type ButtonVariant = "primary" | "gradient" | "ghost";
+
+export interface ButtonProps {
+  children: ReactNode;
+  /** Renders an `<a>` when set, otherwise a `<button>`. */
+  href?: string;
+  onClick?: () => void;
+  variant?: ButtonVariant;
+  size?: "sm" | "md";
+  /** Trailing up-right arrow that nudges on hover. */
+  arrow?: boolean;
+  /** Pixels of cursor-follow lean while hovered. Ignored for `gradient`. */
+  strength?: number;
+  className?: string;
+  type?: "button" | "submit" | "reset";
+  "aria-label"?: string;
+}
 
 /**
- * Pill button that "magnetically" leans toward the cursor while hovered, then
- * springs back on leave. Renders as <a> when `href` is set, else <button>.
- * The visual fill/glow lives in CSS (`.btn-*`); this only adds the magnetism.
+ * Pill button. Leans "magnetically" toward the cursor while hovered, then
+ * springs back on leave. The fill sweep and glow live in CSS (`.btn-*`); this
+ * component only adds the magnetism and the per-letter roll on the gradient
+ * variant.
  */
-export default function MagneticButton({
+export function Button({
   children,
   href,
   onClick,
   variant = "primary",
-  size,
+  size = "md",
   arrow = true,
   strength = 16,
   className = "",
-}: {
-  children: ReactNode;
-  href?: string;
-  onClick?: () => void;
-  variant?: Variant;
-  size?: "sm";
-  arrow?: boolean;
-  strength?: number;
-  className?: string;
-}) {
+  type = "button",
+  "aria-label": ariaLabel,
+}: ButtonProps) {
   const ref = useRef<HTMLAnchorElement & HTMLButtonElement>(null);
 
-  // The gradient CTA stays put — its hover "wow" lives in CSS instead.
+  // The gradient CTA stays put; its hover payoff is the letter roll instead.
   const magnetic = variant !== "gradient";
 
   const onMove = (e: MouseEvent) => {
@@ -46,17 +56,10 @@ export default function MagneticButton({
     if (el) el.style.transform = "translate(0px, 0px)";
   };
 
-  const cls = [
-    "btn",
-    `btn-${variant}`,
-    size === "sm" ? "btn-sm" : "",
-    className,
-  ]
+  const cls = ["btn", `btn-${variant}`, size === "sm" ? "btn-sm" : "", className]
     .filter(Boolean)
     .join(" ");
 
-  // The gradient CTA gets a per-letter "roll" on hover: each character flips up
-  // while an identical copy rolls in from below, staggered left to right.
   const rollable = variant === "gradient" && typeof children === "string";
   const label = rollable ? (
     <span className="btn-roll" aria-label={children as string}>
@@ -95,6 +98,7 @@ export default function MagneticButton({
         ref={ref}
         href={href}
         className={cls}
+        aria-label={ariaLabel}
         onMouseMove={onMove}
         onMouseLeave={reset}
       >
@@ -106,8 +110,9 @@ export default function MagneticButton({
   return (
     <button
       ref={ref}
-      type="button"
+      type={type}
       className={cls}
+      aria-label={ariaLabel}
       onClick={onClick}
       onMouseMove={onMove}
       onMouseLeave={reset}
@@ -116,3 +121,5 @@ export default function MagneticButton({
     </button>
   );
 }
+
+export default Button;

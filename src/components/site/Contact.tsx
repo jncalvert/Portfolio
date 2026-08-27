@@ -2,7 +2,7 @@ import { useState, type FormEvent } from "react";
 import { ArrowUp } from "lucide-react";
 import Reveal from "./Reveal";
 import ScrollText from "./ScrollText";
-import MagneticButton from "./MagneticButton";
+import { Button, Field, Badge, Chip } from "../../design-system";
 import { PROFILE } from "../../data/content";
 
 export default function Contact() {
@@ -13,7 +13,7 @@ export default function Contact() {
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     const subject = encodeURIComponent(`Portfolio enquiry from ${name || "someone"}`);
-    const body = encodeURIComponent(`${message}\n\n— ${name}\n${email}`);
+    const body = encodeURIComponent(`${message}\n\nFrom ${name}\n${email}`);
     window.location.href = `mailto:${PROFILE.email}?subject=${subject}&body=${body}`;
   };
 
@@ -21,10 +21,7 @@ export default function Contact() {
     <footer id="contact" className="section" style={{ paddingBottom: "var(--space-12)" }}>
       <div className="container">
         <Reveal>
-          <span className="kicker">
-            <span className="pulse-dot" />
-            Available for work
-          </span>
+          <Badge dot="accent">Get in touch</Badge>
         </Reveal>
 
         <Reveal delay={0.06}>
@@ -37,12 +34,12 @@ export default function Contact() {
               lineHeight: 0.95,
             }}
           >
-            Let's <span className="gradient-text">work</span>
+            Let's <span className="gradient-text">talk</span>
           </h2>
         </Reveal>
 
         <ScrollText
-          text="Like my work? Send me a message and let's build something that performs."
+          text="Have something in mind? Send a message and I'll get back to you."
           style={{
             marginTop: "var(--space-6)",
             fontSize: "var(--text-xl)",
@@ -64,40 +61,31 @@ export default function Contact() {
             }}
             className="contact-form"
           >
-            <input
-              className="field"
+            <Field
               placeholder="Your name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
             />
-            <input
-              className="field"
+            <Field
               type="email"
               placeholder="Your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
-            <textarea
-              className="field"
+            <Field
+              as="textarea"
               placeholder="Type your message..."
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               required
-              rows={4}
-              style={{
-                gridColumn: "1 / -1",
-                height: "auto",
-                paddingTop: "var(--space-4)",
-                paddingBottom: "var(--space-4)",
-                borderRadius: "var(--radius-2xl)",
-                resize: "vertical",
-                fontFamily: "var(--font-body)",
-              }}
+              style={{ gridColumn: "1 / -1" }}
             />
             <div style={{ gridColumn: "1 / -1" }}>
-              <MagneticButton variant="gradient">Send message</MagneticButton>
+              <Button type="submit" variant="gradient">
+                Send message
+              </Button>
             </div>
           </form>
         </Reveal>
@@ -130,18 +118,17 @@ export default function Contact() {
 
           <div style={{ display: "flex", alignItems: "center", gap: "var(--space-3)" }}>
             {PROFILE.socials.map((s) => (
-              <a
+              <Chip
                 key={s.label}
                 href={s.href}
                 target="_blank"
                 rel="noreferrer"
-                className="tag"
                 style={{ height: 40, padding: "0 var(--space-4)" }}
               >
                 {s.label}
-              </a>
+              </Chip>
             ))}
-            <MagneticButton
+            <Button
               href="#top"
               variant="ghost"
               size="sm"
@@ -151,7 +138,7 @@ export default function Contact() {
               <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
                 Back to top <ArrowUp size={15} />
               </span>
-            </MagneticButton>
+            </Button>
           </div>
         </div>
 
