@@ -1,7 +1,14 @@
 import { User } from "lucide-react";
 import Reveal from "./Reveal";
-import ScrollText from "./ScrollText";
+import { Card, Badge } from "../../design-system";
 import { PROFILE } from "../../data/content";
+
+const bioParagraph = {
+  fontSize: "var(--text-lg)",
+  lineHeight: "var(--leading-relaxed)",
+  color: "var(--color-text-primary)",
+  maxWidth: "54ch",
+} as const;
 
 export default function About() {
   return (
@@ -18,8 +25,7 @@ export default function About() {
         >
           {/* Portrait placeholder */}
           <Reveal>
-            <div
-              className="glow-card"
+            <Card
               style={{
                 aspectRatio: "4 / 5",
                 background:
@@ -42,16 +48,13 @@ export default function About() {
               >
                 NC
               </span>
-            </div>
+            </Card>
           </Reveal>
 
           {/* Copy */}
           <div>
             <Reveal>
-              <span className="kicker">
-                <User size={15} strokeWidth={1.75} />
-                About me
-              </span>
+              <Badge icon={User}>About me</Badge>
             </Reveal>
             <Reveal delay={0.06}>
               <h2
@@ -62,33 +65,29 @@ export default function About() {
                   lineHeight: "var(--leading-snug)",
                 }}
               >
-                Hey, I'm {PROFILE.name.split(" ")[0]} — a{" "}
+                Hey, I'm {PROFILE.name.split(" ")[0]}, a{" "}
                 <span className="gradient-text">{PROFILE.role.toLowerCase()}</span>{" "}
                 based in {PROFILE.location}.
               </h2>
             </Reveal>
 
-            <ScrollText
-              text="I design clear, scalable, system-driven interfaces — and the brands around them. From product UX and design systems to identity work and hand-built websites, I care about the whole arc: how it feels, how it reads, and how it ships."
-              style={{
-                marginTop: "var(--space-6)",
-                fontSize: "var(--text-lg)",
-                lineHeight: "var(--leading-relaxed)",
-                color: "var(--color-text-primary)",
-                maxWidth: "54ch",
-              }}
-            />
-
-            <ScrollText
-              text="Currently leading UI/UX & graphic design at Sky Systemz."
-              style={{
-                marginTop: "var(--space-4)",
-                fontSize: "var(--text-lg)",
-                lineHeight: "var(--leading-relaxed)",
-                color: "var(--color-text-primary)",
-                maxWidth: "54ch",
-              }}
-            />
+            <Reveal delay={0.12}>
+              <p style={{ ...bioParagraph, marginTop: "var(--space-6)" }}>
+                Thanks for stopping by and digging through the work. I started in
+                graphic design, working across print, brand, and web, then moved
+                into UI/UX and design systems. The longer I did it, the more I got
+                pulled toward the harder part: not how a product looks, but how it
+                works and how it holds together as it grows.
+              </p>
+              <p style={{ ...bioParagraph, marginTop: "var(--space-4)" }}>
+                Since then I've worked with startups and a growing SaaS company,
+                taking products from rough idea through launch and the long
+                stretch of iteration after. Today I'm Lead UX Designer at Sky
+                Systemz, focused on UI/UX and design systems, always aiming for
+                something that feels obvious to use and earns its keep for the
+                business behind it.
+              </p>
+            </Reveal>
           </div>
         </div>
       </div>

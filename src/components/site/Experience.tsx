@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { Plus, GraduationCap } from "lucide-react";
 import SectionHeading from "./SectionHeading";
 import Reveal from "./Reveal";
+import { Chip } from "../../design-system";
 import { EXPERIENCE } from "../../data/content";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -17,7 +18,7 @@ export default function Experience() {
           kicker="Career"
           title="Experience"
           icon={GraduationCap}
-          lead="A few years designing, shipping, and leading across product, web, and brand."
+          lead="A graphic-design start, a move into product, and design leadership at a SaaS company."
         />
 
         <div>
@@ -116,9 +117,7 @@ export default function Experience() {
                           </p>
                           <div style={{ display: "flex", gap: "var(--space-2)", flexWrap: "wrap" }}>
                             {role.tags.map((t) => (
-                              <span key={t} className="tag">
-                                {t}
-                              </span>
+                              <Chip key={t}>{t}</Chip>
                             ))}
                           </div>
                         </div>

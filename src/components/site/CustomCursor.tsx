@@ -1,18 +1,16 @@
 import { useEffect, useRef } from "react";
 
 /**
- * Trailing dot + ring cursor. The dot tracks the pointer 1:1; the ring lags
- * with easing and swells when hovering anything tagged interactive
- * (`a`, `button`, or `[data-cursor="hover"]`). Hidden on touch via CSS.
+ * Subtle trailing ring. Sits on top of the native cursor (never replaces it),
+ * lags slightly with easing, and grows a touch over links and buttons.
+ * Hidden on touch / coarse pointers via CSS.
  */
 export default function CustomCursor() {
-  const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const dot = dotRef.current;
     const ring = ringRef.current;
-    if (!dot || !ring) return;
+    if (!ring) return;
 
     let mouseX = window.innerWidth / 2;
     let mouseY = window.innerHeight / 2;
@@ -23,20 +21,17 @@ export default function CustomCursor() {
     const onMove = (e: MouseEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
-      dot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
     };
 
     const onOver = (e: MouseEvent) => {
       const t = e.target as HTMLElement;
-      const interactive = t.closest(
-        'a, button, [data-cursor="hover"], input, textarea',
-      );
+      const interactive = t.closest('a, button, [data-cursor="hover"]');
       ring.classList.toggle("is-hovering", !!interactive);
     };
 
     const loop = () => {
-      ringX += (mouseX - ringX) * 0.18;
-      ringY += (mouseY - ringY) * 0.18;
+      ringX += (mouseX - ringX) * 0.22;
+      ringY += (mouseY - ringY) * 0.22;
       ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
       raf = requestAnimationFrame(loop);
     };
@@ -52,10 +47,5 @@ export default function CustomCursor() {
     };
   }, []);
 
-  return (
-    <>
-      <div ref={ringRef} className="cursor-ring" aria-hidden />
-      <div ref={dotRef} className="cursor-dot" aria-hidden />
-    </>
-  );
+  return <div ref={ringRef} className="cursor-ring" aria-hidden />;
 }

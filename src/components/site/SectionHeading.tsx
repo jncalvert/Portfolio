@@ -1,10 +1,11 @@
 import type { LucideIcon } from "lucide-react";
 import Reveal from "./Reveal";
 import ScrollText from "./ScrollText";
+import { Badge } from "../../design-system";
 
-/** Section header molecule: glossy badge (icon + label) over a large display
- *  title, with an optional lead paragraph and/or action aligned to the right —
- *  matching the "What I do" / "Our Projects" headers. */
+/** Section header molecule: design-system Badge (icon + label) over a large
+ *  display title, with an optional lead paragraph and/or action aligned to the
+ *  right. Matches the "What I do" / "Case studies" headers. */
 export default function SectionHeading({
   kicker,
   title,
@@ -21,10 +22,9 @@ export default function SectionHeading({
   return (
     <div className="services-head">
       <Reveal>
-        <span className="services-badge">
-          {Icon ? <Icon size={16} /> : <span className="kicker-dot" />}
+        <Badge variant="section" icon={Icon} dot={Icon ? undefined : "accent"}>
           {kicker}
-        </span>
+        </Badge>
       </Reveal>
       <div className="services-title-row">
         <Reveal delay={0.06}>

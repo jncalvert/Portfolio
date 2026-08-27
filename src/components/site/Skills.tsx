@@ -1,7 +1,8 @@
 import { Boxes } from "lucide-react";
 import Reveal from "./Reveal";
 import ScrollText from "./ScrollText";
-import { SKILLS } from "../../data/content";
+import { Badge } from "../../design-system";
+import { DISCIPLINES } from "../../data/content";
 
 // --- Generated card visuals --------------------------------------------------
 
@@ -87,26 +88,26 @@ function SkillVisual({ id }: { id: string }) {
             <div className="site-nav">
               <span className="site-brand">
                 <span className="site-mark" />
-                Calvert
+                System
               </span>
               <span className="site-links">
-                <span>Work</span>
-                <span>About</span>
-                <span>Pricing</span>
+                <span>Foundations</span>
+                <span>Components</span>
+                <span>Tokens</span>
               </span>
-              <span className="site-cta">Start</span>
+              <span className="site-cta">v2.4</span>
             </div>
             <div className="site-hero">
-              <span className="site-eyebrow">Design that ships</span>
+              <span className="site-eyebrow">Design system</span>
               <div className="site-display">
-                Build <b>standout</b> brands
+                One system, <b>three brands</b>
               </div>
               <div className="site-sub">
-                Premium product &amp; brand design, engineered to convert.
+                Tokens and components in Figma, shipped to engineering as code.
               </div>
               <div className="site-actions">
-                <span className="site-btn primary">Get started</span>
-                <span className="site-btn ghost">See work</span>
+                <span className="site-btn primary">Get the package</span>
+                <span className="site-btn ghost">Docs</span>
               </div>
             </div>
             <div className="site-strip">
@@ -156,7 +157,7 @@ function SkillVisual({ id }: { id: string }) {
     );
   }
 
-  // Brand Identity — glass orb (drawn via CSS pseudo-elements).
+  // Brand Identity: glass orb (drawn via CSS pseudo-elements).
   return (
     <div className="services-visual sv-orb">
       <div className="sv-noise" />
@@ -170,10 +171,9 @@ export default function Skills() {
       <div className="container">
         <div className="services-head">
           <Reveal>
-            <span className="services-badge">
-              <Boxes size={16} />
-              Skills
-            </span>
+            <Badge variant="section" icon={Boxes}>
+              Expertise
+            </Badge>
           </Reveal>
           <div className="services-title-row">
             <Reveal delay={0.06}>
@@ -181,13 +181,13 @@ export default function Skills() {
             </Reveal>
             <ScrollText
               className="services-lead"
-              text="Clear, scalable, system-driven design — from brand and product interfaces to the websites and front-ends that ship them."
+              text="I started in graphic design and moved into product. That path is the point: systems thinking with visual craft, and the engineering to ship both."
             />
           </div>
         </div>
 
         <div className="services-grid">
-          {SKILLS.map((skill, i) => (
+          {DISCIPLINES.map((skill, i) => (
             <Reveal key={skill.id} delay={i * 0.08}>
               <article className="service-card">
                 <SkillVisual id={skill.id} />
