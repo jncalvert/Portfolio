@@ -1,23 +1,50 @@
-import { StrictMode } from "react";
+import { StrictMode, Suspense, lazy } from "react";
 import { createRoot } from "react-dom/client";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { MotionConfig } from "motion/react";
 import "./index.css";
 import App from "./App.tsx";
+import CaseStudyPage from "./pages/CaseStudyPage.tsx";
+import ScrollManager from "./components/site/ScrollManager.tsx";
 import { ThemeProvider } from "./theme/ThemeContext.tsx";
 
-const root = createRoot(document.getElementById("root")!);
+// Design-system reference page + its floating shortcut. Dev-only and
+// code-split, so neither is reachable or bundled on the deployed site.
+const StyleGuide = import.meta.env.DEV
+  ? lazy(() => import("./design-system/StyleGuide.tsx"))
+  : null;
+const StyleGuideLink = import.meta.env.DEV
+  ? lazy(() => import("./components/dev/StyleGuideLink.tsx"))
+  : null;
 
-const render = (node: React.ReactNode) =>
-  root.render(
-    <StrictMode>
-      <ThemeProvider>{node}</ThemeProvider>
-    </StrictMode>,
-  );
-
-// /styleguide renders the design-system reference page. The whole branch sits
-// behind `import.meta.env.DEV`, so it is dead-code-eliminated from the
-// production build: never reachable and never bundled on the deployed site.
-if (import.meta.env.DEV && window.location.pathname.replace(/\/+$/, "") === "/styleguide") {
-  import("./design-system/StyleGuide.tsx").then((m) => render(<m.default />));
-} else {
-  render(<App />);
-}
+createRoot(document.getElementById("root")!).render(
+  <StrictMode>
+    <ThemeProvider>
+      <MotionConfig reducedMotion="user">
+        <BrowserRouter>
+          <ScrollManager />
+          <Routes>
+            <Route path="/" element={<App />} />
+            <Route path="/work/:slug" element={<CaseStudyPage />} />
+            {StyleGuide && (
+              <Route
+                path="/styleguide"
+                element={
+                  <Suspense fallback={null}>
+                    <StyleGuide />
+                  </Suspense>
+                }
+              />
+            )}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+          {StyleGuideLink && (
+            <Suspense fallback={null}>
+              <StyleGuideLink />
+            </Suspense>
+          )}
+        </BrowserRouter>
+      </MotionConfig>
+    </ThemeProvider>
+  </StrictMode>,
+);

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
 import { PROFILE, HERO, DISCIPLINES } from "../../data/content";
 
@@ -13,11 +13,13 @@ export default function Hero() {
   const plumeARef = useRef<HTMLDivElement>(null);
   const plumeBRef = useRef<HTMLDivElement>(null);
   const spotRef = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
 
   // A spotlight that smoothly follows the cursor, plus gentle counter-parallax
   // on the ambient plumes. Everything is driven by transforms in a single rAF
-  // loop so it stays GPU-composited.
+  // loop so it stays GPU-composited. Skipped entirely under reduced motion.
   useEffect(() => {
+    if (reduce) return;
     const section = sectionRef.current;
     const spot = spotRef.current;
     const a = plumeARef.current;
@@ -59,7 +61,7 @@ export default function Hero() {
       window.removeEventListener("mousemove", onMove);
       cancelAnimationFrame(raf);
     };
-  }, []);
+  }, [reduce]);
 
   return (
     <section

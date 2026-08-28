@@ -23,6 +23,7 @@ export const PROFILE = {
     { label: "LinkedIn", href: "https://www.linkedin.com/in/noah-calvert-358871259/" },
     { label: "Behance", href: "https://www.behance.net/noahcalvert1" },
   ],
+  github: "https://github.com/jncalvert",
 };
 
 export const HERO = {
@@ -30,18 +31,6 @@ export const HERO = {
   headline: ["Designing", "Digital", "Systems"],
   featured: { title: "Selected work", note: "4 case studies" },
 };
-
-/**
- * Trust strip. Concrete facts, not vanity metrics. First thing that tells a
- * hiring manager this is real product work.
- */
-export const SIGNALS = [
-  "Lead UX Designer at Sky Systemz",
-  "Tri-brand design system in production",
-  "Shipped as an npm package across multiple apps",
-  "2 products designed and shipped end to end",
-  "Graphic-design roots, product-design focus",
-];
 
 /**
  * The four disciplines, ordered as a spine:
@@ -111,8 +100,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     year: "2025 to present",
     status: "Ongoing",
     discipline: "Design systems, web + mobile",
-    summary:
-      "One system, three brands: tokens and components designed in Figma and shipped to engineering as a versioned npm package.",
+    summary: "One system, three brands, shipped to engineering as code.",
     tags: ["Design systems", "Figma", "React", "npm"],
     role: "Lead UX Designer, system owner",
     context: "Sky Systemz, 2025 to present, Figma / React / npm",
@@ -134,8 +122,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     year: "2025",
     status: "Shipped",
     discipline: "Product design, web app, 0 to 1",
-    summary:
-      "A customer-facing portal designed end to end, from discovery through shipped UI, on top of the new design system.",
+    summary: "A customer portal designed end to end, research to launch.",
     tags: ["Product design", "UX research", "Web app"],
     role: "Lead UX Designer, sole designer",
     context: "Sky Systemz, 2025",
@@ -157,8 +144,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     year: "2024 to 2025",
     status: "Design complete",
     discipline: "Product design, mobile, 0 to 1",
-    summary:
-      "A consumer mobile app designed end to end: native patterns, and the trust and clarity the domain demands.",
+    summary: "A consumer mobile app designed end to end, zero to prototype.",
     tags: ["Mobile", "Product design", "0 to 1"],
     role: "Lead UX Designer, sole designer",
     context: "Sky Systemz, 2024 to 2025",
@@ -179,8 +165,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     year: "2025",
     status: "Shipped",
     discipline: "Brand identity, website, Figma to code",
-    summary:
-      "Brand identity and marketing site for an early-stage startup: identity in Figma, built and shipped as hand-coded React.",
+    summary: "Brand identity and marketing site for a startup, Figma to code.",
     tags: ["Brand identity", "Web design", "React"],
     role: "Independent, brand and build",
     context: "Freelance, 2025, Figma / React",

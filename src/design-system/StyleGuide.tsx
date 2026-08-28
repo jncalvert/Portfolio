@@ -1,6 +1,14 @@
 import { useState } from "react";
-import { Moon, Sun, Boxes, User, ArrowRight } from "lucide-react";
-import { Button, Chip, Field, Card, Badge } from "./index";
+import {
+  Moon,
+  Sun,
+  Boxes,
+  User,
+  ArrowRight,
+  ArrowUpRight,
+  Trash2,
+} from "lucide-react";
+import { Button, Chip, Field, Card, PreviewCard, Badge } from "./index";
 
 /* --------------------------------------------------------------------------
  * Token catalogs. Each references the same CSS variable the system exposes,
@@ -231,19 +239,43 @@ export default function StyleGuide() {
         </Row>
 
         {/* ---- Components ---- */}
-        <Row title="Button">
+        <Row title="Button / intent x fill">
           <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-4)" }}>
             <div style={specimen}>
-              <Button arrow={false}>Primary</Button>
-              <Button variant="gradient" arrow={false}>Gradient</Button>
-              <Button variant="ghost" arrow={false}>Ghost</Button>
+              <Button intent="primary">Primary</Button>
+              <Button intent="primary" fill="outline">Primary</Button>
+              <Button intent="secondary">Secondary</Button>
+              <Button intent="secondary" fill="outline">Secondary</Button>
             </div>
             <div style={specimen}>
-              <Button size="sm" arrow={false}>Small primary</Button>
-              <Button size="sm" variant="ghost" arrow={false}>Small ghost</Button>
-              <Button size="sm">With arrow</Button>
-              <Button href="#" variant="ghost" arrow={false}>As link</Button>
+              <Button intent="tertiary">Tertiary</Button>
+              <Button intent="danger">Danger</Button>
+              <Button intent="danger" fill="outline">Danger</Button>
+              <Button intent="gradient">Gradient</Button>
             </div>
+          </div>
+        </Row>
+
+        <Row title="Button / sizes + icons + states">
+          <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-4)" }}>
+            <div style={specimen}>
+              <Button size="sm">Small</Button>
+              <Button size="md">Medium</Button>
+              <Button size="lg">Large</Button>
+            </div>
+            <div style={specimen}>
+              <Button iconLeft={ArrowRight} intent="secondary">Icon left</Button>
+              <Button iconRight={ArrowUpRight} intent="secondary">Icon right</Button>
+              <Button iconOnly iconLeft={Trash2} intent="danger" fill="outline" aria-label="Delete" />
+            </div>
+            <div style={specimen}>
+              <Button loading intent="secondary">Loading</Button>
+              <Button disabled>Disabled</Button>
+              <Button href="#" intent="tertiary">As link</Button>
+            </div>
+            <Button block intent="primary" iconRight={ArrowUpRight}>
+              Full width
+            </Button>
           </div>
         </Row>
 
@@ -280,10 +312,27 @@ export default function StyleGuide() {
         </Row>
 
         <Row title="Field">
-          <div style={{ display: "grid", gap: "var(--space-4)", maxWidth: 420 }}>
-            <Field placeholder="Your name" />
-            <Field type="email" placeholder="Your email" />
-            <Field as="textarea" placeholder="Your message..." />
+          <div style={{ display: "grid", gap: "var(--space-5)", maxWidth: 420 }}>
+            <Field label="Full name" placeholder="Ada Lovelace" required />
+            <Field
+              label="Email"
+              type="email"
+              placeholder="name@company.com"
+              hint="We'll only use this to reply."
+            />
+            <Field
+              label="Username"
+              value="taken"
+              readOnly
+              error="That username is already in use."
+            />
+            <Field label="Locked" value="Read only" disabled />
+            <Field
+              label="Search"
+              hideLabel
+              placeholder="Placeholder-only (label hidden for AT)"
+            />
+            <Field as="textarea" label="Message" placeholder="What's on your mind?" />
           </div>
         </Row>
 
@@ -295,11 +344,29 @@ export default function StyleGuide() {
                 Bordered surface with a soft shadow and an accent glow on hover.
               </p>
               <div style={{ marginTop: "var(--space-4)" }}>
-                <Button size="sm" variant="ghost" arrow={false}>
-                  Action <ArrowRight size={14} />
+                <Button size="sm" intent="secondary" fill="outline" iconRight={ArrowRight}>
+                  Action
                 </Button>
               </div>
             </Card>
+          </div>
+        </Row>
+
+        <Row title="PreviewCard">
+          <div style={grid(200)}>
+            <PreviewCard
+              to="/styleguide"
+              title="With link"
+              subtitle="Hover for the lift and arrow"
+              tint="linear-gradient(135deg, #1d2b4a, #0c1322)"
+              glow="#3b6ef5"
+            />
+            <PreviewCard
+              title="No link"
+              subtitle="Renders as an article"
+              tint="linear-gradient(135deg, #2c1d3e, #140e1c)"
+              glow="#a64ae0"
+            />
           </div>
         </Row>
       </div>

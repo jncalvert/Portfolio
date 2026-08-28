@@ -1,4 +1,5 @@
 import { ReactLenis } from "lenis/react";
+import { useReducedMotion } from "motion/react";
 import "lenis/dist/lenis.css";
 import CustomCursor from "./components/site/CustomCursor";
 import Header from "./components/site/Header";
@@ -10,10 +11,16 @@ import Experience from "./components/site/Experience";
 import Contact from "./components/site/Contact";
 
 export default function App() {
+  const reduce = useReducedMotion();
+
   return (
     <ReactLenis
       root
-      options={{ lerp: 0.1, smoothWheel: true, anchors: { offset: -16 } }}
+      options={{
+        lerp: reduce ? 1 : 0.1,
+        smoothWheel: !reduce,
+        anchors: { offset: -16 },
+      }}
     >
       <CustomCursor />
       <Header />

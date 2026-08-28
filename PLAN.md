@@ -25,11 +25,10 @@ generalist read; let the visual skill show through the work).
 | Section | Component | State |
 | --- | --- | --- |
 | Hero | `Hero.tsx` | Copy done. Headline "Designing Digital Systems", tagline + greyed `taglineMuted`. |
-| Trust signals | `data/content.ts` / `SIGNALS` | Written. **Not rendered yet.** Decide whether to add a slim strip. |
 | What I do | `Skills.tsx` | Copy done. Spine: Product Design, Design Systems, Brand Identity, Design Engineering. |
-| Case studies | `Projects.tsx` + `CASE_STUDIES` | 4 slots scaffolded. Tile title/subtext contrast on the card background needs fixing (deferred). Needs real detail + NDA clearance + detail views. |
+| Case studies | `Projects.tsx` + `CASE_STUDIES` + `pages/CaseStudyPage.tsx` | Tiles link to `/work/:slug`; each renders a real page from the `CaseStudy` data. Needs real detail + NDA clearance + screenshots. Tile title/subtext contrast still deferred. |
 | Brand & identity | `Projects.tsx` + `GALLERY` | Redone as a plain image grid (`BrandGrid`), replacing the fanning card-deck. Placeholder tints; swap in real project thumbnails + names. |
-| About | `About.tsx` | Bio rejected by Noah; needs a rewrite with his direction. |
+| About | `About.tsx` | Copy done (warm career-arc narrative). "NC" monogram is a placeholder for a real headshot. |
 | Experience | `Experience.tsx` + `EXPERIENCE` | Consolidated into one Sky Systemz block showing the climb. |
 | Contact | `Contact.tsx` | Copy done. TODO: resume download link. |
 
@@ -41,15 +40,39 @@ can be lifted into its own repo + npm package later without restructuring.
 - `tokens.ts` - typed accessors for every CSS custom property (color, type,
   space, radius, shadow, motion). `var(--...)` valued so they stay
   theme-reactive; `raw` sub-object holds literals for canvas / meta use.
-- `components/` - `Button`, `Chip`, `Field`, `Card`, `Badge`. Thin React wrappers
-  over the existing proven class names.
-- `StyleGuide.tsx` - reference page at `/styleguide`. Dev-only: the route is
-  behind `import.meta.env.DEV` and code-split, so it is not reachable and not
-  bundled on the deployed site. Has its own local `data-theme` toggle to
-  preview light + dark.
+- `components/` - `Button`, `Chip`, `Field`, `Card`, `PreviewCard` (media-first
+  link card), `Badge`. Thin React wrappers over the proven class names.
+  - `Button`: `intent` (primary / secondary / tertiary / danger / gradient) x
+    `fill` (solid / outline; ignored for tertiary + gradient), `size`
+    (sm / md / lg), `iconLeft` / `iconRight` (Lucide), `iconOnly`, `loading`,
+    `disabled`, `block`, `magnetic`. `to` -> router `<Link>`, `href` -> `<a>`,
+    neither / disabled -> `<button>`. Letter-roll dropped. CSS is
+    `.btn` + `.btn--{intent}-{fill}` in `index.css`.
+  - `Field`: `as` (input / textarea), `label` (+ `hideLabel` for the
+    placeholder-only look, label kept for AT via `.sr-only`), `hint`, `error`,
+    `disabled`, plus native props. Wraps in `.field-group`; `className` /
+    `style` land on the wrapper. The contact form uses `hideLabel`. No
+    `Select` / `Checkbox` / `Radio` / `Switch` yet - add when a form needs them.
+- `StyleGuide.tsx` - reference page at `/styleguide`. Dev-only: route +
+  floating shortcut (`components/dev/StyleGuideLink.tsx`) are behind
+  `import.meta.env.DEV` and code-split, so nothing is reachable or bundled on
+  the deployed site. Local `data-theme` toggle previews light + dark.
 
-Consumed across `Header`, `Contact`, `About`, `Skills`, `Projects`, `Experience`,
-`SectionHeading`. `MagneticButton` was replaced by `Button` and deleted.
+**Rule: no hand-rolled buttons / cards / chips / badges / inputs anywhere.**
+Everything visual goes through a DS component; add a new one if none fits.
+
+### Not yet componentised (audit findings)
+
+- `Header` nav pills (`.nav-pill`) - icon nav item, could be a `NavItem`.
+- `Hero` "Find me at" links (`.hero-social`) - text + trailing arrow, could be
+  an `ArrowLink`.
+- `Hero` featured card (`.hero-feature`) - a horizontal card; extend
+  `PreviewCard` with a row layout or make a variant.
+- `Experience` accordion (`.accordion-trigger` + AnimatePresence) - a `<button>`;
+  wants an `Accordion` / `Disclosure` component.
+- `Skills` `.service-card` - a card; build on `Card` or a `FeatureCard`.
+- `Projects` `.case-card` (the big home tiles) - elaborate site-specific card;
+  candidate for a `CaseTile` (site-level is fine).
 
 **Not yet done (do these when splitting into a package):**
 
@@ -79,32 +102,46 @@ isn't rendered yet.
 **Detail template** (build once, reuse): context, problem/stakes, what I did
 (with artifacts), who I worked with, outcome, what I'd do differently.
 
-## Launch punch-list (next session, before going live)
+## Launch punch-list
 
-Structural / non-content work agreed but not yet done:
+- [x] Favicon: `public/favicon.svg` (geometric lowercase "n", white on
+      #121214 rounded square). Placeholder mark, Noah to refine later.
+- [x] apple-touch-icon: `public/apple-touch-icon.png` (180x180) + link in
+      `index.html`.
+- [x] Social meta: full `og:*` / `twitter:card` set in `index.html` +
+      `public/og.png` (1200x630). URLs point at the Vercel alias for now;
+      swap to `noahcalvert.com` once the domain is pointed.
+- [x] Form field labels: `Field` now takes `label` / `hint` / `error` /
+      `disabled` with proper `<label htmlFor>` + `useId` wiring and
+      `aria-invalid` / `aria-describedby`. Contact form uses real labels.
+- [x] `prefers-reduced-motion`: `MotionConfig reducedMotion="user"` +
+      `useReducedMotion` guards in `Reveal`, `ScrollText`, `Button` (magnetism),
+      `Hero` (parallax), `CustomCursor` (not rendered); Lenis smooth-scroll off;
+      broad CSS reset in the media block.
+- [x] `public/robots.txt` (allow all).
+- [x] Nav anchors verified (About / Work click-scroll works via Lenis).
+- [x] Router: `react-router-dom`, `BrowserRouter` in `main.tsx`. Routes: `/`,
+      `/work/:slug` (`pages/CaseStudyPage.tsx`), dev-only `/styleguide`, `*` to
+      `/`. `ScrollManager` handles scroll on nav. `vercel.json` rewrites all
+      paths to `index.html` so routes survive a refresh. Each case study page
+      ends with a "More work" card grid linking to the other three. Adding a
+      case study is now just filling `content.ts` + dropping screenshots.
+- [ ] (optional) Fix `npm run lint` - flat-config error, not a launch blocker.
+- [ ] When the domain is pointed: update `og:url` / `og:image` / `twitter:image`
+      in `index.html` from the Vercel alias to `https://noahcalvert.com`.
 
-- [ ] Favicon: add `public/` + a `favicon.svg` (currently referenced in
-      `index.html`, 404s). Add an apple-touch-icon too.
-- [ ] Social meta: `og:title` / `og:description` / `og:image` / `twitter:card`
-      in `index.html`, plus a 1200x630 share image (placeholder is fine).
-- [ ] Form field labels: replace placeholder-as-label with visually-hidden
-      `<label>`s (a11y).
-- [ ] `prefers-reduced-motion`: gate Lenis smooth-scroll, `Reveal`, magnetic
-      buttons, hero parallax, and the cursor ring.
-- [ ] Verify the `#work` / `#about` nav anchors scroll reliably on fresh load.
-- [ ] `public/robots.txt` (allow all) so the site gets indexed.
-- [ ] Render the `SIGNALS` trust strip (copy is already written).
-- [ ] Router + `/work/:slug` case-study page template, driven by `CaseStudy`
-      data. After this, a new case study = fill `content.ts` + drop images.
-- [ ] (optional) Fix `npm run lint` — flat-config error, not a launch blocker.
+Already done: last session's work is committed, merged to `main`, and live on
+Vercel at `portfolio-mu-puce-28.vercel.app` (auto-deploys on push to `main`).
 
 ### Noah's tasks
 
-- [ ] Pick a host (Vercel recommended: zero-config Vite, free, SPA routing
-      handled, deploy on push). Point `noahcalvert.com` at it.
+- [ ] Delete the duplicate `portfolio-5jrf` Vercel project (two projects build
+      this repo on every push).
+- [ ] Point `noahcalvert.com` at the Vercel project (dashboard + DNS).
 - [ ] Contact form: `mailto:` works for launch; swap to Formspree (free signup)
       before sharing the link widely.
-- [ ] Commit + push (all current work is uncommitted on `main`).
+- [ ] Fix the commit author email on `c24ceff` (machine default, not the GitHub
+      address) before it matters: `git config user.email ...` + amend.
 - [ ] Analytics (optional).
 
 ## Open TODOs (content)
@@ -117,4 +154,3 @@ Structural / non-content work agreed but not yet done:
 - [ ] Real thumbnails + names for the Brand & identity grid.
 - [ ] Resume PDF + download link in Contact.
 - [ ] Name the startup in `CASE_STUDIES[3]` (the Figma-to-code one).
-- [ ] Fix case-tile title/subtext contrast against the card art.

@@ -76,7 +76,7 @@ export default function Header() {
           ))}
         </nav>
 
-        <Button href="#contact" variant="gradient" size="sm" arrow={false}>
+        <Button href="#contact" intent="gradient" size="sm">
           Contact me
         </Button>
       </div>

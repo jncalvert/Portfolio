@@ -1,7 +1,14 @@
 import { useRef, type CSSProperties } from "react";
-import { motion, useScroll, useTransform, type MotionValue } from "motion/react";
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+  type MotionValue,
+} from "motion/react";
 
 // Scroll-linked text: each word brightens from dim to full as it scrolls up.
+// Respects `prefers-reduced-motion` - renders fully opaque, no scroll linkage.
 
 function ScrollWord({
   children,
@@ -30,11 +37,21 @@ export default function ScrollText({
   style?: CSSProperties;
 }) {
   const ref = useRef<HTMLParagraphElement>(null);
+  const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start 0.9", "start 0.4"],
   });
   const words = text.split(" ");
+
+  if (reduce) {
+    return (
+      <p className={className} style={style}>
+        {text}
+      </p>
+    );
+  }
+
   return (
     <p ref={ref} className={className} style={style}>
       {words.map((word, i) => {
