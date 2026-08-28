@@ -1,14 +1,17 @@
 import { useEffect, useRef } from "react";
+import { useReducedMotion } from "motion/react";
 
 /**
  * Subtle trailing ring. Sits on top of the native cursor (never replaces it),
  * lags slightly with easing, and grows a touch over links and buttons.
- * Hidden on touch / coarse pointers via CSS.
+ * Hidden on touch / coarse pointers via CSS, and under reduced motion.
  */
 export default function CustomCursor() {
   const ringRef = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
 
   useEffect(() => {
+    if (reduce) return;
     const ring = ringRef.current;
     if (!ring) return;
 
@@ -45,7 +48,8 @@ export default function CustomCursor() {
       window.removeEventListener("mouseover", onOver);
       cancelAnimationFrame(raf);
     };
-  }, []);
+  }, [reduce]);
 
+  if (reduce) return null;
   return <div ref={ringRef} className="cursor-ring" aria-hidden />;
 }

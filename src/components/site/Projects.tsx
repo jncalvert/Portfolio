@@ -1,18 +1,20 @@
 import { useRef } from "react";
+import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform } from "motion/react";
 import { Briefcase, Palette } from "lucide-react";
 import SectionHeading from "./SectionHeading";
 import Reveal from "./Reveal";
 import ScrollText from "./ScrollText";
-import { Chip, Badge } from "../../design-system";
+import { Chip, Badge, PreviewCard } from "../../design-system";
 import { CASE_STUDIES, GALLERY, type CaseStudy } from "../../data/content";
 
 // Per-project palette: card tint + the "screenshot" gradient and glow color.
+// Kept dark so the overlaid title / summary stay readable.
 const CASE_THEMES = [
-  { tint: "linear-gradient(125deg, #15203a 0%, #0a0a0e 64%)", screen: "linear-gradient(135deg, #1d2b4a, #0c1322)", glow: "#3b6ef5" },
-  { tint: "linear-gradient(125deg, #262a30 0%, #0a0a0e 64%)", screen: "linear-gradient(135deg, #3a3f47, #16181c)", glow: "#9aa3b2" },
-  { tint: "linear-gradient(125deg, #2a1d15 0%, #0a0a0e 64%)", screen: "linear-gradient(135deg, #3a241a, #16100c)", glow: "#d9622e" },
-  { tint: "linear-gradient(125deg, #221830 0%, #0a0a0e 64%)", screen: "linear-gradient(135deg, #2c1d3e, #140e1c)", glow: "#a64ae0" },
+  { tint: "linear-gradient(125deg, #101725 0%, #08080c 66%)", screen: "linear-gradient(135deg, #141d33, #0a0f1c)", glow: "#2f5bd0" },
+  { tint: "linear-gradient(125deg, #1a1c20 0%, #08080c 66%)", screen: "linear-gradient(135deg, #262a30, #121316)", glow: "#7f8794" },
+  { tint: "linear-gradient(125deg, #1c130d 0%, #08080c 66%)", screen: "linear-gradient(135deg, #281a12, #120c08)", glow: "#b04e22" },
+  { tint: "linear-gradient(125deg, #171021 0%, #08080c 66%)", screen: "linear-gradient(135deg, #1f1530, #0f0a18)", glow: "#8038c0" },
 ];
 
 // Placeholder tints for the Brand & identity tiles, until real thumbnails land.
@@ -77,18 +79,12 @@ function BrandGrid() {
         const theme = WORK_THEMES[i % WORK_THEMES.length];
         return (
           <Reveal key={w.name} delay={(i % 3) * 0.06}>
-            <article className="brand-tile">
-              <div className="brand-tile-art" style={{ background: theme.screen }}>
-                <span
-                  className="brand-tile-glow"
-                  style={{ background: theme.glow }}
-                />
-              </div>
-              <div>
-                <h3 className="brand-tile-title">{w.name}</h3>
-                <p className="brand-tile-meta">{w.tags.join(" · ")}</p>
-              </div>
-            </article>
+            <PreviewCard
+              title={w.name}
+              subtitle={w.tags.join(" · ")}
+              tint={theme.screen}
+              glow={theme.glow}
+            />
           </Reveal>
         );
       })}
@@ -98,7 +94,7 @@ function BrandGrid() {
 
 function CaseCard({ project, index }: { project: CaseStudy; index: number }) {
   const theme = CASE_THEMES[index % CASE_THEMES.length];
-  const ref = useRef<HTMLAnchorElement & HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "center center"],
@@ -126,7 +122,7 @@ function CaseCard({ project, index }: { project: CaseStudy; index: number }) {
               </div>
               <span className="l1" />
               <span className="l2" />
-              <span className="btn" />
+              <span className="mock-btn" />
             </div>
           </div>
         </div>
@@ -150,20 +146,15 @@ function CaseCard({ project, index }: { project: CaseStudy; index: number }) {
     </>
   );
 
-  const style = { background: theme.tint, scale };
-
-  return project.href ? (
-    <motion.a
-      ref={ref}
-      href={project.href}
-      className="case-card"
-      style={style}
-    >
-      {inner}
-    </motion.a>
-  ) : (
-    <motion.div ref={ref} className="case-card" style={style}>
-      {inner}
-    </motion.div>
+  return (
+    <Link to={`/work/${project.slug}`} className="case-card-link">
+      <motion.div
+        ref={ref}
+        className="case-card"
+        style={{ background: theme.tint, scale }}
+      >
+        {inner}
+      </motion.div>
+    </Link>
   );
 }

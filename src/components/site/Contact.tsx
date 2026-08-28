@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import { ArrowUp } from "lucide-react";
+import { ArrowUp, ArrowUpRight } from "lucide-react";
 import Reveal from "./Reveal";
 import ScrollText from "./ScrollText";
 import { Button, Field, Badge, Chip } from "../../design-system";
@@ -62,12 +62,16 @@ export default function Contact() {
             className="contact-form"
           >
             <Field
+              label="Your name"
+              hideLabel
               placeholder="Your name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
             />
             <Field
+              label="Your email"
+              hideLabel
               type="email"
               placeholder="Your email"
               value={email}
@@ -76,6 +80,8 @@ export default function Contact() {
             />
             <Field
               as="textarea"
+              label="Your message"
+              hideLabel
               placeholder="Type your message..."
               value={message}
               onChange={(e) => setMessage(e.target.value)}
@@ -83,7 +89,7 @@ export default function Contact() {
               style={{ gridColumn: "1 / -1" }}
             />
             <div style={{ gridColumn: "1 / -1" }}>
-              <Button type="submit" variant="gradient">
+              <Button type="submit" intent="gradient" iconRight={ArrowUpRight}>
                 Send message
               </Button>
             </div>
@@ -117,7 +123,10 @@ export default function Contact() {
           </a>
 
           <div style={{ display: "flex", alignItems: "center", gap: "var(--space-3)" }}>
-            {PROFILE.socials.map((s) => (
+            {[
+              ...PROFILE.socials,
+              { label: "GitHub", href: PROFILE.github },
+            ].map((s) => (
               <Chip
                 key={s.label}
                 href={s.href}
@@ -130,14 +139,12 @@ export default function Contact() {
             ))}
             <Button
               href="#top"
-              variant="ghost"
+              intent="secondary"
+              fill="outline"
               size="sm"
-              arrow={false}
-              className="back-to-top"
+              iconRight={ArrowUp}
             >
-              <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-                Back to top <ArrowUp size={15} />
-              </span>
+              Back to top
             </Button>
           </div>
         </div>

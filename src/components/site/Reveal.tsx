@@ -1,7 +1,8 @@
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import type { ReactNode } from "react";
 
-/** Scroll-triggered reveal: fades + slides up the first time it enters view. */
+/** Scroll-triggered reveal: fades + slides up the first time it enters view.
+ *  Respects `prefers-reduced-motion` - renders in place with no transition. */
 export default function Reveal({
   children,
   delay = 0,
@@ -16,6 +17,12 @@ export default function Reveal({
   as?: "div" | "span" | "li";
 }) {
   const MotionTag = motion[as];
+  const reduce = useReducedMotion();
+
+  if (reduce) {
+    return <MotionTag className={className}>{children}</MotionTag>;
+  }
+
   return (
     <MotionTag
       className={className}
